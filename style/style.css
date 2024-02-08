@@ -120,6 +120,7 @@ body {
   display: inline-block;
   max-width: 45%;
   height: auto;
+  border-radius: 25%;
 }
 
 .six .hat {
@@ -214,6 +215,7 @@ body {
 .wish-hbd {
   font-size: 3em;
   margin: 0;
+  white-space: pre-wrap;
   /* text-transform: uppercase; */
 }
 
