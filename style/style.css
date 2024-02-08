@@ -216,6 +216,7 @@ body {
   font-size: 3em;
   margin: 0;
   white-space: pre-wrap;
+  text-align: center;
   /* text-transform: uppercase; */
 }
 
