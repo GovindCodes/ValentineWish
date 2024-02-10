@@ -4,11 +4,7 @@ html {
 
 body {
   margin: 0;
-.josefin-sans-<uniquifier> {
   font-family: "Josefin Sans", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: <weight>;
-  font-style: normal;
 }
 
 .container {
