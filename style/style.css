@@ -4,7 +4,7 @@ html {
 
 body {
   margin: 0;
-  font-family: "Work Sans", sans-serif;
+  font-family: "Dancing Script", cursive;
 }
 
 .container {
@@ -120,6 +120,7 @@ body {
   display: inline-block;
   max-width: 45%;
   height: auto;
+  border-radius: 25%;
 }
 
 .six .hat {
@@ -214,7 +215,9 @@ body {
 .wish-hbd {
   font-size: 3em;
   margin: 0;
-  /* text-transform: uppercase; */
+  white-space: pre-wrap;
+  text-align: center;
+   /* text-transform: uppercase; */
 }
 
 .wish h5 {
