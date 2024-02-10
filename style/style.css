@@ -4,7 +4,11 @@ html {
 
 body {
   margin: 0;
-  font-family: "Roboto", sans-serif;
+.josefin-sans-<uniquifier> {
+  font-family: "Josefin Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: <weight>;
+  font-style: normal;
 }
 
 .container {
@@ -217,7 +221,7 @@ body {
   margin: 0;
   white-space: pre-wrap;
   text-align: center;
-  /* text-transform: uppercase; */
+   /* text-transform: uppercase; */
 }
 
 .wish h5 {
