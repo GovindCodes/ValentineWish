@@ -1,300 +1,1361 @@
-html {
+* {
   box-sizing: border-box;
 }
 
-body {
-  margin: 0;
-  font-family: "Work Sans", sans-serif;
+
+:root {
+
+  /* fundo quente e profundo, como a cena dos fogos */
+  --bg-1: #17130f;
+  --bg-2: #0a0705;
+  --bg-3: #050403;
+
+  --text: #f3ece2;
+  --text-muted: rgba(243, 236, 226, 0.55);
+
+  /* rosa/vinho, mais carta de amor que alerta vermelho */
+  --accent: #d1476b;
+  --accent-soft: #e0577c;
+  --accent-deep: #a83458;
+
+  /* dourado usado com moderação (dots ativos, pequenos toques) */
+  --gold: #d9a659;
+
+  --font-serif: "Cormorant Garamond", serif;
+  --font-sans: "DM Sans", sans-serif;
+
 }
 
-.container {
-  height: 100vh;
-  width: 100vh;
-  margin: 0 auto;
-  text-align: center;
-  visibility: hidden;
+
+html,
+body {
+
+  margin: 0;
+  padding: 0;
+
+  width: 100%;
+  height: 100%;
+
+}
+
+
+body {
+
+  background:
+    radial-gradient(
+      ellipse at center,
+      var(--bg-1) 0%,
+      var(--bg-2) 65%,
+      var(--bg-3) 100%
+    );
+
+  color: var(--text);
+
+  font-family:
+    var(--font-sans);
+
+  overflow: hidden;
+
+}
+
+
+.story {
+
   position: relative;
+
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  height: calc(var(--vh, 1vh) * 100);
+
+}
+
+
+/* =========================================
+   CENAS
+========================================= */
+
+.scene {
+
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  height: calc(var(--vh, 1vh) * 100);
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+
+  padding: 30px;
+
+  visibility: hidden;
+
+  opacity: 0;
+
+}
+
+
+.scene p,
+.scene h1,
+.scene h2 {
+
+  margin: 0;
+
+  font-weight: 400;
+
+  line-height: 1.4;
+
+}
+
+
+.scene p {
+
+  font-size:
+    clamp(
+      1.45rem,
+      4.5vw,
+      3rem
+    );
+
+  max-width: 850px;
+
+  letter-spacing: -0.03em;
+
+}
+
+
+.scene h1 {
+
+  font-family: var(--font-serif);
+
+  font-style: italic;
+
+  font-size:
+    clamp(
+      3rem,
+      9vw,
+      6rem
+    );
+
+  font-weight: 500;
+
+  letter-spacing: 0;
+
+}
+
+
+/* =========================================
+   CENAS INTERATIVAS (texto + botão continuar)
+========================================= */
+
+.interactive-scene div {
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  gap: 40px;
+
+}
+
+
+.btn-row {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  flex-wrap: wrap;
+
+  gap: 20px;
+
+}
+
+
+.dodge-btn {
+
+  border: 1px solid rgba(243, 236, 226, 0.18);
+
+  background: transparent;
+
+  color: var(--text-muted);
+
+  font-family: inherit;
+
+  font-size: 0.9rem;
+
+  font-weight: 400;
+
+  letter-spacing: -0.01em;
+
+  padding: 12px 22px;
+
+  border-radius: 999px;
+
+  cursor: pointer;
+
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease;
+
+}
+
+.dodge-btn:hover {
+
+  color: var(--text);
+
+  border-color: rgba(243, 236, 226, 0.35);
+
+}
+
+.dodge-btn.is-dodging {
+
+  position: absolute;
+
+  z-index: 20;
+
+  transition:
+    left 0.2s ease,
+    top 0.2s ease;
+
+}
+
+
+p.dodge-hint {
+
+  margin-top: 0 !important;
+
+  font-family: var(--font-sans);
+
+  font-size: 0.8rem;
+
+  letter-spacing: -0.01em;
+
+  color: var(--text-muted);
+
+  opacity: 0;
+
+  height: 1em;
+
+  transition: opacity 0.3s ease;
+
+}
+
+.dodge-hint.is-visible {
+
+  opacity: 0.85;
+
+}
+
+
+@media (max-width: 600px) {
+
+  .interactive-scene div {
+
+    gap: 56px;
+
+  }
+
+}
+
+/* =========================================
+   BOTÕES
+========================================= */
+
+.continue-btn,
+.replay-btn {
+  border: none;
+  background:
+    linear-gradient(
+      135deg,
+      var(--accent-soft),
+      var(--accent-deep)
+    );
+  color: #fff;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+
+  min-width: 150px;
+  height: 48px;
+  padding: 0 28px;
+
+  border-radius: 999px;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 8px 24px rgba(209, 71, 107, 0.25);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    filter 0.25s ease;
+}
+
+.continue-btn:hover,
+.replay-btn:hover {
+  filter: brightness(1.08);
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 12px 30px rgba(209, 71, 107, 0.35);
+}
+
+.continue-btn:active,
+.replay-btn:active {
+  transform: scale(0.96);
+}
+
+
+/* =========================================
+   BOTÃO DO CARROSSEL
+========================================= */
+
+.carousel-continue {
+  margin-top: 18px;
+}
+
+
+/* =========================================
+   BOTÃO REPETIR
+========================================= */
+
+.replay-btn {
+  position: absolute;
+
+  bottom: 38px;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  opacity: 0;
+
+  z-index: 10;
+}
+
+
+/* =========================================
+   CELULAR
+========================================= */
+
+@media (max-width: 600px) {
+
+  .continue-btn,
+  .replay-btn {
+    min-width: 145px;
+    height: 46px;
+
+    padding: 0 25px;
+
+    font-size: 0.9rem;
+  }
+
+  .carousel-continue {
+    margin-top: 14px;
+  }
+
+  .replay-btn {
+    bottom: 25px;
+  }
+
+}
+
+/* =========================================
+   DATA
+========================================= */
+
+.envelope {
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  gap: 16px;
+
+  cursor: pointer;
+
+  transition:
+    opacity 0.4s ease,
+    transform 0.4s ease;
+
+}
+
+.envelope.is-open {
+
+  opacity: 0;
+
+  transform: scale(0.85);
+
+  pointer-events: none;
+
+}
+
+.envelope-seal {
+
+  width: 84px;
+  height: 84px;
+
+  border-radius: 50%;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  font-size: 2rem;
+
+  color: #fff;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--accent-soft),
+      var(--accent-deep)
+    );
+
+  box-shadow:
+    0 10px 30px rgba(209, 71, 107, 0.35);
+
+  transition: transform 0.3s ease;
+
+}
+
+.envelope:hover .envelope-seal {
+
+  transform: scale(1.06);
+
+}
+
+p.envelope-hint {
+
+  font-family: var(--font-sans);
+
+  font-size: 0.85rem;
+
+  letter-spacing: -0.01em;
+
+  color: var(--text-muted);
+
+}
+
+
+p.date-reveal {
+
+  position: absolute;
+
+  top: 50%;
+  left: 50%;
+
+  transform:
+    translate(-50%, -50%)
+    scale(0.85);
+
+  opacity: 0;
+
+  pointer-events: none;
+
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease;
+
+  font-family: var(--font-serif);
+
+  font-size:
+    clamp(
+      2.4rem,
+      8vw,
+      5rem
+    );
+
+  font-weight: 500;
+
+  letter-spacing: 0.04em;
+
+  padding-bottom: 22px;
+
+}
+
+.date-reveal.is-visible {
+
+  opacity: 1;
+
+  transform:
+    translate(-50%, -50%)
+    scale(1);
+
+}
+
+.date-reveal::after {
+
+  content: "";
+
+  position: absolute;
+
+  bottom: 0;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  width: 56px;
+  height: 1px;
+
+  background: var(--gold);
+
+  opacity: 0.6;
+
+}
+
+
+/* =========================================
+   CARROSSEL
+========================================= */
+
+.carousel-scene {
+  padding: 0;
   overflow: hidden;
 }
 
-.container div.six {
-  top: 10vh;
+.carousel-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* TÍTULO */
+
+.carousel-title {
+  position: absolute;
+  top: 4vh;
+  left: 0;
+  right: 0;
+
+  /* left:0 + right:0 + max-width (herdado de ".scene p") só
+     centralizam de verdade se a margem puder virar "auto".
+     Antes estava fixa em 0, então o título ficava grudado
+     na borda esquerda em vez de centralizado. */
+  margin: 0 auto !important;
+
+  font-size: 1.25rem !important;
+  font-weight: 300 !important;
+
+  text-align: center;
+
+  /* Um toque mais elegante para a homenagem: mais respiro
+     entre as letras e um brilho suave na cor do coração. */
+  letter-spacing: 0.04em;
+  color: rgba(243, 236, 226, 0.92);
+  text-shadow: 0 0 18px rgba(209, 71, 107, 0.35);
+}
+
+.carousel-title::after {
+  content: "♥";
+  display: block;
+  margin-top: 6px;
+  font-size: 0.7rem;
+  color: var(--accent);
+  opacity: 0.75;
+}
+
+/* ÁREA DO CARROSSEL */
+
+.carousel {
+  position: relative;
+
+  width: 100%;
+  height: 430px;
+
+  overflow: hidden;
+
+  touch-action: pan-y;
+  user-select: none;
+
+  cursor: grab;
+}
+
+.carousel.is-dragging {
+  cursor: grabbing;
+}
+
+/* TRACK */
+
+.carousel-track {
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  pointer-events: none;
+}
+
+/* =========================================
+   CARDS
+========================================= */
+
+.carousel-card {
+  position: absolute;
+
+  top: 50%;
+  left: 50%;
+
+  width: 520px;
+  height: 330px;
+
+  margin: 0;
+
+  border-radius: 18px;
+
+  overflow: hidden;
+
+  opacity: 0;
+
+  transform:
+    translate(-50%, -50%)
+    scale(0.65);
+
+  filter:
+    brightness(0.45);
+
   z-index: 1;
+
+  pointer-events: none;
+
+  transition:
+    transform 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.5s ease,
+    filter 0.5s ease;
+
+  will-change:
+    transform,
+    opacity;
 }
 
-.container div.seven,
-.container div.eight {
-  width: 100vw;
-  height: 100vh;
-  position: fixed;
-  top: 0;
+/* IMAGEM */
+
+.carousel-card img {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: cover;
+
+  border-radius: 18px;
+
+  user-select: none;
+  pointer-events: none;
+  -webkit-user-drag: none;
+
+  box-shadow:
+    0 20px 50px rgba(0, 0, 0, 0.45);
 }
 
-.container > div {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 20vh;
+/* =========================================
+   FOTO CENTRAL
+========================================= */
+
+.carousel-card.active {
+  opacity: 1;
+
+  transform:
+    translate(-50%, -50%)
+    scale(1);
+
+  filter:
+    brightness(1);
+
+  z-index: 10;
+
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.5),
+    0 0 40px rgba(209, 71, 107, 0.18);
 }
 
-.one {
-  font-size: 4.5rem;
+/* =========================================
+   FOTO IMEDIATAMENTE ANTERIOR
+========================================= */
+
+.carousel-card.previous {
+  opacity: 0.72;
+
+  filter:
+    brightness(0.65);
+
+  z-index: 5;
 }
 
-.one > img {
-  vertical-align: middle;
-  margin-bottom: 10px;
-  max-width: 100%;
-  height: auto;
+/* =========================================
+   FOTO IMEDIATAMENTE POSTERIOR
+========================================= */
+
+.carousel-card.next {
+  opacity: 0.72;
+
+  filter:
+    brightness(0.65);
+
+  z-index: 5;
 }
 
-.two {
-  font-size: 1.2rem;
-  font-weight: lighter;
+/* =========================================
+   FOTOS DISTANTES
+========================================= */
+
+.carousel-card.far-previous,
+.carousel-card.far-next {
+  opacity: 0.25;
+
+  filter:
+    brightness(0.45);
+
+  z-index: 2;
 }
 
-.three {
-  font-size: 3rem;
+/* =========================================
+   DOTS
+========================================= */
+
+.carousel-dots {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  margin-top: 18px;
 }
 
-.four .text-box {
-  width: 600px;
-  margin: 0 auto;
-  border: 3px solid #aaa;
-  border-radius: 5px;
-  padding: 10px;
-  position: relative;
-}
+.dot {
+  width: 5px;
+  height: 5px;
 
-.text-box p {
-  margin: 0;
-  text-align: left;
-}
+  padding: 0;
 
-.text-box span {
-  visibility: hidden;
-}
+  border-radius: 50%;
 
-.text-box .fake-btn {
-  position: absolute;
-  right: 5px;
-  bottom: 5px;
-  color: #fff;
-  background-color: rgb(21, 161, 237);
-  padding: 5px 8px;
-  border-radius: 3px;
-}
+  background:
+    rgba(255, 255, 255, 0.25);
 
-.five p {
-  font-size: 2rem;
-  position: absolute;
-  left: 0;
-  right: 0;
-}
-
-.idea-3 strong {
-  padding: 3px 5px;
-  border-radius: 3px;
-  display: inline-block;
-}
-
-.five .idea-5 {
-  font-size: 4rem;
-}
-
-.idea-5 span,
-.idea-6 span,
-.wish-hbd span {
-  display: inline-block;
-}
-
-.idea-6 span {
-  font-size: 15rem;
-}
-
-.six {
-  position: relative;
-}
-
-.six img {
-  display: inline-block;
-  max-width: 45%;
-  height: auto;
-}
-
-.six .hat {
-  position: absolute;
-  width: 80px;
-  top: -35px;
-  left: 41.5%;
-  /* transform: scale(0.1); */
-}
-
-.baloons img {
-  display: inline-block;
-  position: absolute;
-  width: 200px;
-}
-
-.baloons img:nth-child(even) {
-  left: 10%;
-}
-
-.baloons img:nth-child(odd) {
-  right: 10%;
-}
-
-.baloons img:nth-child(3n + 0) {
-  left: 30%;
-}
-
-.eight svg {
-  width: 25px;
-  position: absolute;
-  top: 0;
-  left: 0;
-  visibility: hidden;
-  z-index: -1;
-}
-
-.eight svg:nth-child(1) {
-  top: 7vh;
-  left: 5vw;
-  fill: #bd6ecf;
-}
-
-.eight svg:nth-child(2) {
-  top: 23vh;
-  left: 35vw;
-  fill: #7dd175;
-}
-
-.eight svg:nth-child(3) {
-  top: 33vh;
-  left: 23vw;
-  fill: #349d8b;
-}
-
-.eight svg:nth-child(4) {
-  top: 43vh;
-  left: 57vw;
-  fill: #347a9d;
-}
-
-.eight svg:nth-child(5) {
-  top: 68vh;
-  left: 7vw;
-  fill: #c66053;
-}
-
-.eight svg:nth-child(6) {
-  top: 42vh;
-  left: 77vw;
-  fill: #bfaa40;
-}
-
-.eight svg:nth-child(7) {
-  top: 68vh;
-  left: 83vw;
-  fill: #e3bae8;
-}
-
-.eight svg:nth-child(8) {
-  top: 86vh;
-  left: 37vw;
-  fill: #8762cb;
-}
-
-.eight svg:nth-child(9) {
-  top: 94vh;
-  left: 87vw;
-  fill: #9a90da;
-}
-
-.wish-hbd {
-  font-size: 3em;
-  margin: 0;
-  /* text-transform: uppercase; */
-}
-
-.wish h5 {
-  font-weight: lighter;
-  font-size: 2rem;
-  margin: 10px 0 0;
-}
-
-.nine p {
-  font-size: 2rem;
-  font-weight: lighter;
-}
-
-#replay {
-  z-index: 3;
   cursor: pointer;
+
+  transition:
+    transform 0.3s ease,
+    background 0.3s ease;
 }
 
-/* Media Queries */
-@media screen and (max-height: 1000px) {
-  .six .hat {
-    left: 40%;
+.dot.active {
+  background: var(--gold);
+
+  transform:
+    scale(1.6);
+
+  box-shadow:
+    0 0 10px rgba(217, 166, 89, 0.7);
+}
+
+/* =========================================
+   INSTRUÇÃO
+========================================= */
+
+.carousel-hint {
+  font-size:
+    0.75rem !important;
+
+  color:
+    rgba(255, 255, 255, 0.35);
+
+  margin:
+    10px 0 0 !important;
+}
+
+.hint-arrow {
+  display: inline-block;
+  animation: hintNudge 1.6s ease-in-out infinite;
+}
+
+@keyframes hintNudge {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(5px);
   }
 }
 
-@media screen and (max-height: 800px) {
-  .six .hat {
-    left: 37%;
+/* =========================================
+   CONTINUAR
+========================================= */
+
+.carousel-continue {
+  margin-top: 8px;
+}
+
+/* =========================================
+   CELULAR
+========================================= */
+
+@media (max-width: 600px) {
+
+  .carousel-title {
+    top: 5vh;
+
+    font-size:
+      1.15rem !important;
+  }
+
+  .carousel {
+    height: 360px;
+  }
+
+  .carousel-card {
+    width: 78vw;
+    height: 50vw;
+
+    max-width: 420px;
+    max-height: 265px;
+
+    border-radius: 16px;
+  }
+
+  .carousel-card img {
+    border-radius: 16px;
+  }
+
+  .carousel-dots {
+    margin-top: 12px;
+  }
+
+  .carousel-hint {
+    margin-top: 8px !important;
+  }
+
+  .carousel-continue {
+    margin-top: 5px;
   }
 }
 
-@media screen and (max-height: 700px) {
-  .six .hat {
-    left: 32%;
-  }
+
+/* =========================================
+   HOJE FAZ 1 ANO
+========================================= */
+
+.final-message {
+
+  flex-direction: column;
+
 }
 
-@media screen and (max-height: 850px) and (max-width: 450px) {
-  .six .hat {
-    left: 32%;
-  }
+
+.final-message > div {
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  gap: 28px;
+
 }
 
-@media screen and (max-width: 500px) {
-  .container {
-    width: 90%;
+
+.final-message h2 {
+
+  font-family: var(--font-serif);
+
+  font-style: italic;
+
+  font-size:
+    clamp(
+      2.6rem,
+      8vw,
+      4.5rem
+    );
+
+  font-weight: 500;
+
+}
+
+
+.final-message p {
+
+  font-size:
+    clamp(
+      1.15rem,
+      3.5vw,
+      1.75rem
+    ) !important;
+
+  line-height: 1.9;
+
+  font-weight: 300;
+
+}
+
+
+/* =========================================
+   ENCERRAMENTO
+========================================= */
+
+.ending {
+
+  flex-direction: column;
+
+}
+
+
+.ending p {
+
+  font-size:
+    clamp(
+      1.4rem,
+      4.5vw,
+      2.5rem
+    );
+
+}
+
+
+/* =========================================
+   DECLARAÇÃO
+========================================= */
+
+.hold-heart-wrap {
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  gap: 18px;
+
+  transition:
+    opacity 0.4s ease,
+    transform 0.4s ease;
+
+}
+
+.hold-heart-wrap.is-done {
+
+  opacity: 0;
+
+  transform: scale(0.85);
+
+  pointer-events: none;
+
+}
+
+.hold-heart {
+
+  position: relative;
+
+  width: 110px;
+  height: 110px;
+
+  border: none;
+
+  background: transparent;
+
+  padding: 0;
+
+  cursor: pointer;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  -webkit-tap-highlight-color: transparent;
+
+}
+
+.hold-heart-ring {
+
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  transform: rotate(-90deg);
+
+}
+
+.hold-heart-ring-bg {
+
+  fill: none;
+
+  stroke: rgba(243, 236, 226, 0.15);
+
+  stroke-width: 4;
+
+}
+
+.hold-heart-ring-fg {
+
+  fill: none;
+
+  stroke: var(--accent-soft);
+
+  stroke-width: 4;
+
+  stroke-linecap: round;
+
+  stroke-dasharray: 283;
+
+  stroke-dashoffset: 283;
+
+  transition: stroke-dashoffset 0.05s linear;
+
+}
+
+.hold-heart-icon {
+
+  font-size: 2.6rem;
+
+  color: var(--accent-soft);
+
+  text-shadow:
+    0 0 20px rgba(209, 71, 107, 0.5);
+
+  transition: transform 0.15s ease;
+
+}
+
+.hold-heart.is-holding .hold-heart-icon {
+
+  transform: scale(1.15);
+
+}
+
+p.hold-heart-label {
+
+  font-family: var(--font-sans);
+
+  font-size: 0.85rem;
+
+  letter-spacing: -0.01em;
+
+  color: var(--text-muted);
+
+}
+
+p.declaration-text {
+
+  position: absolute;
+
+  top: 50%;
+  left: 50%;
+
+  transform:
+    translate(-50%, -50%)
+    scale(0.85);
+
+  opacity: 0;
+
+  pointer-events: none;
+
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease;
+
+  font-family: var(--font-serif);
+
+  font-style: italic;
+
+  font-size:
+    clamp(
+      2.4rem,
+      8vw,
+      5.5rem
+    );
+
+  font-weight: 500;
+
+  letter-spacing: 0;
+
+  color: var(--text);
+
+  text-shadow:
+    0 0 30px rgba(209, 71, 107, 0.35);
+
+}
+
+.declaration-text.is-visible {
+
+  opacity: 1;
+
+  transform:
+    translate(-50%, -50%)
+    scale(1);
+
+}
+
+
+/* =========================================
+   FOGOS
+========================================= */
+
+.fireworks-scene {
+
+  background:
+    radial-gradient(
+      circle at center,
+      #171717 0%,
+      #050505 70%
+    );
+
+  padding: 0;
+
+  overflow: hidden;
+
+}
+
+
+#fireworks {
+
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  z-index: 1;
+
+  pointer-events: none;
+
+}
+
+
+/* =========================================
+   CORAÇÃO
+========================================= */
+
+.heart-container {
+
+  position: relative;
+
+  z-index: 3;
+
+}
+
+
+.main-heart {
+
+  color:
+    var(--accent-soft);
+
+  font-size:
+    clamp(
+      4rem,
+      15vw,
+      7rem
+    );
+
+  opacity: 0;
+
+  text-shadow:
+    0 0 20px
+    rgba(
+      209,
+      71,
+      107,
+      0.7
+    );
+
+  /* A animação heartPulse só é ATRIBUÍDA via JS (main.js),
+     depois que o GSAP termina de "crescer" o coração.
+     Mesmo pausada, uma animação CSS já anexada continua
+     vencendo o transform aplicado via JS — por isso ela
+     não pode nem estar presente até a hora certa. */
+
+}
+
+
+@keyframes heartPulse {
+
+  0% {
+
+    transform:
+      scale(0.9);
+
   }
 
-  .four .text-box {
-    width: 90%;
+  50% {
+
+    transform:
+      scale(1.18);
+
   }
 
-  .text-box .fake-btn {
-    right: 5px;
-    bottom: -38px;
+  100% {
+
+    transform:
+      scale(0.9);
+
   }
 
-  .idea-5 span {
-    display: block;
+}
+
+
+/* =========================================
+   REPETIR
+========================================= */
+
+.replay-btn {
+
+  position: absolute;
+
+  bottom: 38px;
+
+  left: 50%;
+
+  transform:
+    translateX(-50%);
+
+  border: 0;
+
+  background: transparent;
+
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.5
+    );
+
+  font-family: inherit;
+
+  font-size:
+    0.95rem;
+
+  font-weight: 300;
+
+  cursor: pointer;
+
+  padding:
+    12px 18px;
+
+  opacity: 0;
+
+  z-index: 10;
+
+  transition:
+    color 0.3s ease;
+
+}
+
+
+.replay-btn:hover {
+
+  color: white;
+
+  background: transparent;
+
+  transform:
+    translateX(-50%);
+
+  box-shadow: none;
+
+}
+
+
+/* =========================================
+   CELULAR
+========================================= */
+
+@media (max-width: 600px) {
+
+
+  .scene {
+
+    padding:
+      20px;
+
   }
 
-  .idea-6 span {
-    font-size: 10rem;
+
+  .scene p {
+
+    max-width:
+      350px;
+
   }
 
-  .six .hat {
-    width: 50px;
-    top: -20px;
+
+  /* CARROSSEL */
+
+  .carousel-title {
+
+    margin-bottom:
+      15px !important;
+
   }
 
-  .wish-hbd {
-    font-size: 2.3em;
+
+  .carousel-dots {
+
+    margin-top:
+      14px;
+
   }
 
-  .wish h5 {
-    font-size: 1.4rem;
+
+  .carousel-hint {
+
+    margin-top:
+      8px !important;
+
   }
 
-  .nine p {
-    font-size: 1.5rem;
-    font-weight: lighter;
+
+  .carousel-continue {
+
+    margin-top:
+      8px;
+
   }
+
+
+  .final-message p {
+
+    line-height:
+      1.8;
+
+  }
+
+
+  .replay-btn {
+
+    bottom:
+      25px;
+
+  }
+
 }
